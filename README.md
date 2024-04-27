@@ -164,7 +164,7 @@ OpenLANE is an open-source automated RTL to GDSII flow, which includes other ope
 Once GLS is clean 
 
 <!-- Day 1 Inception of Open Source EDA -->
-## Day 1 Inception of Open Source EDA, OpenLANE and Sky130 PDK
+## Day 1: Inception of Open Source EDA, OpenLANE and Sky130 PDK
 
 ### Understanding from Software Application to Hardware 
 
