@@ -34,6 +34,131 @@ OpenLANE is an open-source automated RTL to GDSII flow, which includes other ope
 ## RTL to GDSII flow
 ![rtl2gdsii](https://github.com/amitb9296/vsd-soc-design/assets/53483701/be57231c-6bb4-40a2-bd23-dfb3fe2d99b3)
 
+* **Design Specification**
+
+  The initial stage in the chip design process involves defining the requirements and specifications of the chip. This encompasses outlining the functionality of your product, its intended usage, and the performance metrics it needs to achieve.
+  Once these requirements are established, they serve as the foundation for designing the architecture and layout of the chip. Following the architectural design phase, designers proceed to create a Micro-Architectural Specification (MAS).
+  This document serves as a detailed description of the chip's architecture, enabling designers to make precise predictions regarding the design's performance, power consumption, and die size.
+  
+* **RTL Coding**
+
+  This step involves the creation of the digital logic circuits required to implement the functionality defined in the functional design stage. This stage includes creating a logical design using a hardware description language (HDL) and verifying the design’s correctness using simulations.
+
+  Based on the architectural document, RTL designers starts to integrate differrent IPs required as per architecure. This process is iterative as there could be incremental changes through out the design phase depending upon requirement.
+  IPs used could be differrent types of memories, interface protocols like (USB, PCIEx) other high speed interfaces, Display, modem, sensors etc. 
+  
+* **Functional Verification**
+
+  Functional verification, an essential stage, ensures that your logic conforms to the specified requirements, confirming whether the design operates as intended. Companies allocate significant resources to this phase due to its potential to become a critical bottleneck.
+  Despite this investment, companies still face significant hardware bugs that can disrupt a platform. The challenge lies in testing every possible outcome, which can result in trillions of test cases for large designs. Developing tools to efficiently and comprehensively test designs without
+  overlooking any aspect remains a significant challenge. Substantial subfields within functional verification focus on addressing various aspects involved in verifying a circuit.
+   
+* **Logic Synthesis**
+
+  Logic synthesis is the process of converting a high-level description of a digital circuit into a detailed representation that can be implemented using logic gates and other components. It involves translating a design specified in a hardware description language (HDL) such as Verilog or VHDL into a netlist of logic gates, flip-flops, and 
+  interconnections. The goal of logic synthesis is to optimize the design for factors such as performance, area, and power consumption while meeting the specified timing constraints. This process enables efficient implementation of complex digital designs in hardware.
+
+  As shown in figure below. It uses Standard Cell Libraries(SCL) provided by foundary. These area of standard cells are varies as technology node varies. These SCL jhave differrent views/models shown following figure. which are again used for differrent types of simulations.
+  
+  | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/595fd351-feb1-45a4-9314-2931614eaea6) | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/a125594a-b3f1-44ba-a227-2dcf7d4cb061) |
+  |------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+
+  
+* **DFT synthesis**
+
+  Internal Scan involves connecting internal flip-flops and latches to enable observation during test mode. Scan chain insertion is a widely used structured technique for digital circuits. In the VLSI industry, this process is also referred to as DFT (Design for Testability) insertion or DFT synthesis.
+  
+* **Floor Planning**
+
+  The aim is to strategically allocate silicon area and design a dependable power distribution network (PDN) to supply power to each component of the synthesized netlist. Prior to placement, macro placement and blockages must be defined to ensure compliance with the GDS file.
+  During power planning, a ring is established, connected to the pads to distribute power along the chip's edges. Additionally, power straps are incorporated to deliver power to the chip's center using higher metal layers, addressing concerns such as IR drop and electro-migration.
+
+  | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/7602d7a7-a0ab-4ab7-a274-5314be704226) | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/589cda04-c28a-4294-85dc-415409d9d0d8) | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/69fbad54-16ef-47c6-a0d1-6754530355f9) |
+  |------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+  
+
+* **Placement**
+
+  Standard cells are positioned on the floorplan rows, aligned with sites specified in the technology LEF file. The placement process occurs in two stages: Global and Detailed. During Global placement, an attempt is made to find the optimal position for all cells, although they may initially overlap and not align with rows.
+  Detailed placement refines the global placement by legalizing all placements while endeavoring to adhere to the preferences established during global placement.
+
+  | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/1527a7d2-bf30-4ddd-926d-916b6d506fbc) | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/3612a0b9-b565-42ca-864b-b2eac6a18d6e) |
+  |------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+
+
+* **Clock Tree Synthesis**
+
+  Clock tree synthesis involves creating the clock distribution network, which serves to deliver the clock signal to all sequential elements. The key aim is to establish a network with minimal skew across the chip, often achieved using common network topologies like H-trees.
+  
+  ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/ec4f00d6-4cb3-46cb-8705-66ca47eb40c7)
+
+
+* **Routing**
+
+  The interconnect system between standard cells is implemented using the remaining available metal layers following Clock Tree Synthesis (CTS) and Power Distribution Network (PDN) generation. Routing is conducted on routing grids to minimize Design Rule Checking (DRC) errors.
+  Router uses metal layers as defined by PDK. For each metal layer PDK defines thickness, pitch that defines tracks and the minimum width. Also defines VS that can be sued to connect wire segments of differrent metal layers together.
+
+  | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/ef0d950f-ea0f-4666-b835-afe1d9540025) | ![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/f0c0cf3e-9814-4a96-93d2-4323699a6742) |
+  |--------------------------|-------------------|
+  
+* **Static Timing Analysis**
+
+  Static Timing Analysis (STA) stands as a pivotal stage within the realm of Very Large Scale Integration (VLSI) circuit design and validation. Here’s a deeper exploration:
+
+  What is STA?
+  Static Timing Analysis (STA) serves as a methodology employed to assess the timing efficacy of a digital design, meticulously scrutinizing every conceivable pathway for potential timing discrepancies. Its aim is to guarantee adherence to predetermined timing constraints, encompassing factors like setup time, hold time, and clock skew.
+  The significance of STA lies in its role in assuring the dependable functionality of VLSI chips at designated operational frequencies.
+
+  **Key Concepts in STA:**
+
+  * Timing Paths: These denote the logical routes within the design that contribute to the propagation delay of signals.
+
+  * Time Borrowing: In certain cases, paths can "borrow" time from other paths to satisfy timing requirements.
+
+  * Setup and Hold Time: These represent crucial timing parameters ensuring proper data capture at flip-flops.
+
+  * Interconnect Delay Models: These models factor in delays stemming from wire resistance and capacitance.
+
+  * Maximum Clock Frequency: The utmost clock frequency at which the design operates while adhering to timing constraints.
+
+
+  **STA Process:**
+
+  * STA scrutinizes the design without applying specific input vectors.
+  * Input to an STA tool comprises the routed netlist, clock definitions, and external environment specifications.
+  * The tool computes signal propagation delays along each path and identifies timing violations.
+
+
+  **Common STA Violations:**
+
+  * Setup Violation: Arises when data arrives too tardily at a flip-flop before the clock edge.
+  * Hold Violation: Occurs when data changes too swiftly after the clock edge.
+  * Clock Skew: Pertains to discrepancies in arrival times of the clock signal at different chip locations.
+  
+    <img width="518" alt="image" src="https://github.com/amitb9296/vsd-soc-design/assets/53483701/723125b7-150d-427b-983d-8a89a750bc39">
+
+
+* **Gate Level Simulation**
+
+  Gate level simulation is performed on 
+
+  [Gate-Level Simulation (GLS)](https://www.edn.com/gate-level-simulations-verification-flow-and-challenges/) serves several crucial purposes in the verification and validation process of a digital design:
+
+  * Ensuring correct power-up and reset behavior, verifying absence of unintentional dependencies on initial conditions.
+  * Validating low-power structures added during synthesis, offering confidence in their functionality.
+  * Identifying multicycle paths and validating their functionality with appropriate tests.
+  * Estimating power consumption accurately based on the netlist.
+  * Verifying Design-for-Testability (DFT) structures like scan chains and ATPG patterns.
+  * Screening for defects using tester patterns on gate-level netlists.
+  * Detecting glitches on edge-sensitive signals due to combinational logic, considering worst and best-case scenarios.
+  * Evaluating critical timing paths in asynchronous designs that may be missed by Static Timing Analysis (STA).
+  * Identifying and addressing simulation artifacts that could mask RTL-level bugs.
+  * Highlighting potential simulation-synthesis mismatches and netlist-level issues.
+  * Ensuring correct functionality of special logic circuits, including reset circuits and uninitialized logic.
+  * Validating design performance at target frequencies with actual delays.
+  * Identifying the need for synchronizers and potential timing violations in flip-flops.
+ 
+Once GLS is clean 
 
 <!-- Day 1 Inception of Open Source EDA -->
 ## Day 1 Inception of Open Source EDA, OpenLANE and Sky130 PDK
