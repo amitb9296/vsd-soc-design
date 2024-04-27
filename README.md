@@ -11,8 +11,7 @@
       <a href="#rtl-to-gdsii-flow">RTL to GDSII flow</a>
     </li>
     <li>
-      <a href="#day-1-inception-of-open-source-eda-openlane-and-sky130-pdk">Day 1 Inception of Open Source EDA, OpenLANE and Sky130 PDK </a>
-      *
+      <a href="#day-1-inception-of-open-source-eda-openlane-and-sky130-pdk">Day 1: Inception of Open Source EDA, OpenLANE and Sky130 PDK</a>
       <ul>
           <li><a href="#understanding-from-software-application-to-hardware">Understanding from Software Application to Hardware</a></li>
           <li><a href="#introduction-to-risc-v">Introduction to RISC-V</a></li>
