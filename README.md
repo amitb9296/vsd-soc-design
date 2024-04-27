@@ -17,6 +17,10 @@
           <li><a href="#understanding-from-software-application-to-hardware">Understanding from Software Application to Hardware</a></li>
           <li><a href="#introduction-to-risc-v">Introduction to RISC-V</a></li>
           <li><a href="#introduction-to-qfn-48-package-chip-pad-core-die-ips">Introduction to QFN-48 package, Chip, Pad, Core, Die, IPs</a></li>
+	  <li><a href="#openlane-asic-flow">OpenLANE ASIC Flow</a></li>
+	  <li><a href="#openlane-directory-structure">OpenLANE Directory Structure</a></li>
+	  <li><a href="#design-preparation-step">Design Preparation Step</a></li>
+	  <li><a href="#run-synthesis">Run Synthesis</a></li>
       </ul>
     </li>
   </ol>
@@ -254,3 +258,74 @@ Once designed, these components can be reused across numerous designs, streamlin
 ![Screenshot 2024-04-26 181855](https://github.com/amitb9296/vsd-soc-design/assets/53483701/89dfce9f-1213-4d0f-ba84-c56089ef5278)
 
 
+## **OpenLANE ASIC Flow**
+
+To function OpenLANE ASIC flow it needs Process Design Kit (PDK) which is the interface between designers and the foundary. This workshop uses the open-source RTL2GDSII EDA tools and Skywater 130nm PDK is required to implement the full RTL2GDSII flow as shown following figures.
+
+| <img width="940" alt="image" src="https://github.com/amitb9296/vsd-soc-design/assets/53483701/3b73db61-3075-4846-83e3-e0dc051f672e"> | <img width="782" alt="image" src="https://github.com/amitb9296/vsd-soc-design/assets/53483701/31fcbbdd-113f-40c2-83b7-c3e710f8a71e"> |
+|-----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+
+## **OpenLANE Directory Structure**
+
+* **pdks** 
+
+     |-> open_pdks
+  
+     |-> **sky130A** => files present in this directory are made compatible to work with Open-source EDA tools used in our OpenLANE ASIC flow. SKY130A is variant of SKY130 PDK.
+  
+   	|-> .config/
+
+    	|-> nodeinfo.json => It contains foundary information, technology node, feature size,
+                             information about standard cells and IO cells to be used.
+  
+	|- libs.ref/ => Contains all the process specific file like timing, LEF, cell LEF
+
+		|-> sky130_fd_sc_hd => we are using skywater foundary 130A standard cell with high density variant.
+                 	|-> techlef => contains layer information
+  				|-> lib     => contains differrent lib files for differrent PVT corners
+  
+ 	|- libs.tech/ => Contains all the files specific to tools used in OpenLANE ASIC flow. 
+
+   |- skywater-pdk
+
+
+* **openlane** => Working directory.
+  
+	* **How to invoke OpenLANE tool**
+ 
+ 			|-> docker
+   
+   	above commamd is aliased to following command
+
+  		|-> docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=PDK_ROOT -u $(id -u $USER):$(id -g $USER) openlane:rc2
+       
+	* Run flow using following command.
+
+   			|-> ./flow.tcl -interactive	
+
+	**NOTE**: OpenLANE flow is automated so do use -interactive argument
+
+
+  	![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/adc75473-67ed-40d6-bf17-bae645473fc9)
+
+
+   	Once you see % prompt use following command
+
+  		|-> package require openlane 0.9
+
+  ## **Design Preparation Step**
+  	
+   	* How to prepare design
+
+       		|-> prep -design picorv32a
+   	  
+  	![image](https://github.com/amitb9296/vsd-soc-design/assets/53483701/d343be97-4114-4c05-adb4-532173ebaa58)
+
+  	the command used to prepare design merges standard cell LEFs with the tool related LEF files. Stors all the required config files into config.tcl
+
+
+  ## **Run Synthesis**
+
+		|-> run_synthesis
+	
+  
